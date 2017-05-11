@@ -74,7 +74,7 @@ class TransferModel extends Model{
     }
 
     /**
-     * 根据rec_id或者pay_id获取转账信息
+     * 根据pay_id或者rec_id获取转账信息
      * @param $uid
      * @return bool
      */

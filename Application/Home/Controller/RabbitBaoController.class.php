@@ -76,7 +76,7 @@ class RabbitBaoController extends CommonController{
         $this->display();
     }
 
-    /*转账记录zhangling867*/
+    /*转账记录*/
     public function accountRecoder(){
         $db_transfer = D("Transfer");
         $db_user = D('user');
