@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title></title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+    <link rel="stylesheet" href="/Public/home/css/common.css">
+    <link rel="stylesheet" href="/Public/home/css/support.css">
+    <script src="/Public/home/js/common.js"></script>
+    <script src="/Public/home/js/jquery.js"></script>
+    <script src="/Public/home/layer_mobile/layer.js"></script>
+</head>
+<body>
+<div class="header">
+    <span class="header-title">下级团队</span>
+    <a href="javascript:;" onclick="back()"><span><img src="/public/home/images/1_02.png"/></span></a>
+</div>
+<div class="partner-list">
+    <ul>
+        <if condition="empty($myTeam)">
+            <div class="noTeam">
+                <img class="" src="/Public/home/images/noTeam.png">
+                <span class="prompt">该加盟商尚未成立团队！</span>
+            </div>
+            <else/>
+            <volist name="myTeam" id="vo">
+                <a href="{:U('home/support/lastTeam','uid='.$vo['id'])}">
+                    <li class="next1" data-id="1">
+                        <img src="/public/home/images/1_03.png">
+                        <span>{$vo.real_name}</span>
+                        <img src="/public/home/images/1_06.png">
+                        <span>{$vo.tel}</span>
+                    </li>
+                </a>
+            </volist>
+        </if>
+    </ul>
+</div>
+</body>
+</html>

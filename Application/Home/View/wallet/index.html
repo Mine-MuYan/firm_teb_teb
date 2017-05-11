@@ -1,0 +1,114 @@
+<block name="include"><include file="default:Public/header" /></block>
+<link rel="stylesheet" href="/Public/home/css/wallet.css">
+</head>
+<body>
+<div id="header">
+    <a href="{:U('home/'.$url.'/index')}">
+        <img class="back" src="/public/home/images/left.png">
+    </a>
+    钱包
+</div>
+<div class="banner">
+    <div class="img-bg">
+        <img src="/public/home/images/ceshi.png">
+    </div>
+    <p>{$user.real_name}</p>
+</div>
+<div class="moneySum">
+    <div class="money">
+        <p class="value">{$user.money}</p>
+        <p class="name">余额</p>
+    </div>
+    <div class="coin">
+        <p class="value">{$user.register_coin}</p>
+        <p class="name">注册币</p>
+    </div>
+    <div class="integral">
+        <p class="value">{$user.points}</p>
+        <p class="name">积分</p>
+    </div>
+</div>
+<div class="detailed">
+    <div class="title">
+       <p> 资产明细</p>
+    </div>
+    <ul class="content">
+        <a href="{:U('/home/wallet/moneyDetail')}">
+            <li class="money">
+                <img class="icon" src="/public/home/images/money.png">
+                <span>余额</span>
+                <img class="right" src="/public/home/images/right.png">
+            </li>
+        </a>
+        <a href="{:U('/home/wallet/pointsDetail')}">
+            <li class="integral">
+                <img class="icon" src="/public/home/images/integral.png">
+                <span>积分</span>
+                <img class="right" src="/public/home/images/right.png">
+            </li>
+        </a>
+        <li class="integral" style="border-top: 1px solid #cccccc">
+            <img class="icon" src="/public/home/images/money.png">
+            <span>游戏余额</span>
+            <span style="float: right;margin-right: 0.15rem">{$user.fixed_recharge}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="detailed2">
+    <ul class="content">
+        <!--<a href="javascript:;" onclick="mobileBoxMsg('暂未开放充值功能，敬请期待！')">-->
+        <a href="{:U('home/wallet/recharge')}">
+            <li class="money">
+                <img class="icon" src="/Public/home/images/recharge.png">
+                <span>注册币充值</span>
+                <img class="right" src="/public/home/images/right.png">
+            </li>
+        </a>
+        <if condition="$bankUrl eq 1">
+            <a href="{:U('/home/wallet/bindingBank')}">
+                <li class="integral">
+                    <img class="icon" src="/Public/home/images/bank.png">
+                    <span>绑定银行卡</span>
+                    <img class="right" src="/public/home/images/right.png">
+                </li>
+            </a>
+            <else/>
+            <a href="{:U('/home/wallet/myBank')}">
+                <li class="integral">
+                    <img class="icon" src="/Public/home/images/bank.png">
+                    <span>绑定银行卡</span>
+                    <img class="right" src="/public/home/images/right.png">
+                </li>
+            </a>
+        </if>
+    </ul>
+</div>
+<div class="foot-seize"></div>
+<div class="foot">
+    <if condition="$code eq 1">
+        <a class="cash" href="{:U('home/wallet/cash')}">提现</a>
+        <!--<a class="cash weihu">提现</a>-->
+        <else/>
+        <a class="cash notCash">提现</a>
+    </if>
+    <a class="transfer" href="{:U('home/wallet/transfer')}">转账</a>
+    <!--<a class="transfer weihu">转账</a>-->
+</div>
+</body>
+<script>
+    $(function () {
+        $(".notCash").click(function () {
+            layer.open({
+                content: '未到可提现时间！<br>可提现时间为每周三10:00-22:00。'
+                ,btn: '我知道了'
+            })
+        })
+        $(".weihu").click(function () {
+            layer.open({
+                content: '功能维护中，请耐心等待！'
+                ,btn: '我知道了'
+            })
+        })
+    });
+</script>

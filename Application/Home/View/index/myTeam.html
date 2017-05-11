@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>业绩详情</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+    <link rel="stylesheet" href="/public/home/css/common.css">
+    <link rel="stylesheet" href="/public/home/css/index.css">
+    <script src="/Public/home/js/jquery.js"></script>
+    <script src="/Public/home/js/common.js"></script>
+    <script src="/Public/home/layer_mobile/layer.js"></script>
+</head>
+<body>
+<div class="header">
+    <span class="header-title">业绩详情</span>
+    <a href="javascript:;" onclick="back()"><span><img src="/public/home/images/1_02.png"/></span></a>
+</div>
+<div class="partner-list">
+    <ul>
+        <volist name="nextService" id="vo">
+            <li class="next1" data-id="1">
+                <img src="/public/home/images/1_03.png">
+                <span>tel:</span>
+                <span>{:substr_replace($vo['tel'],'****',3,4)}</span>
+                <span>{$vo.achievement}</span>
+            </li>
+        </volist>
+    </ul>
+</div>
+</body>
+</html>

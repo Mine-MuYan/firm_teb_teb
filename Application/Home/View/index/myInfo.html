@@ -1,0 +1,23 @@
+<block name="include"><include file="default:Public/header" /></block>
+    <link rel="stylesheet" href="/public/home/css/myInfo.css">
+</head>
+<body>
+<div class="header">
+    <span class="header-title">个人详情</span>
+    <a href="{:U('home/index/index')}"><span><img src="/Public/home/images/1_02.png"/></span></a>
+</div>
+<div class="middle">
+    <div class="main-dif"><span class="sp-name">头像</span><img src="/Public/home/images/1_05.png"></div>
+    <div class="main-same"><span class="sp-name">姓名</span><span class="sp-val">{$user_message.real_name}</span></div>
+    <div class="main-same"><span class="sp-name">级别</span><span class="sp-val">{$user_message.rank_name}</span></div>
+    <div class="main-same"><span class="sp-name">我的分红点</span><span class="sp-val">{$user_message.dividend}&nbsp;</span></div>
+    <div class="main-same"><span class="sp-name">奖励分红点</span><span class="sp-val">{$user_message.reward_bonus}&nbsp;</span></div>
+    <div class="main-same"><span class="sp-name">注册时间</span><span class="sp-val">{$user_message.create_time|date="Y-m-d",###}&nbsp;</span></div>
+    <div class="main-same"><span class="sp-name">我的身份证号</span><span class="sp-val">{$user_message.card_id}</span></div>
+</div>
+<div class="foot">
+    <div class="user-tel"><span class="sp-name">手机号</span><span class="sp-val">{$user_message.tel}</span></div>
+    <div class="foot-same"><span class="sp-name">所属中心</span><span class="sp-val">{$user_message.service_number}号体验中心</span></div>
+</div>
+</body>
+</html>
