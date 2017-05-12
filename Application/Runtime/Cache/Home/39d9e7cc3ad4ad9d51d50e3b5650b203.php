@@ -87,7 +87,7 @@
                         </li>
                     </a>
                     <a href="<?php echo U('home/RabbitBao/accountRecoder');?>">
-                        <li class="agent_user">
+                        <li class="money_change">
                             <img src="/Public/home/images/solid-left_13.png">
                             <p class="title">转账记录</p>
                         </li>

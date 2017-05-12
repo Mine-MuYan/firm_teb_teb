@@ -436,17 +436,5 @@ class UserModel extends Model{
         }
     }
 
-/*
-    public function getAllIds($id){
-        $this->lowerIds[] = $id;
-        $where['referee_id'] = array('in',$id);
-        $result_ids = $this->where($where)->select();
-        if(!empty($result_ids)){
-            foreach($result_ids as $value){
-                $this->getAllIds($value['id']);
-            }
-        }
-    }
-*/
 
 }

@@ -210,10 +210,10 @@ class WalletController extends CommonController{
             $transfer = D("Transfer");
             $rec_message = $userObj->getUserByMobile($_POST['rec_mobile']);
             $addCashFlow = D('cashFlow')->addFlow($_SESSION['uid'],$rec_message['id'],1,$_POST['need_pay'],'注册币转账',0);
-            $transfer -> addTransfer($_SESSION['uid'],$rec_message['id'],$_POST['need_pay'],0);
-            if ($addCashFlow && $transfer){
+            if ($addCashFlow){
                 $transferResult = $userObj->transfer($_POST['rec_mobile'],$_SESSION['uid'],$_POST['need_pay']);
                 if($transferResult == 1){
+                    $transfer -> addTransfer($_SESSION['uid'],$rec_message['id'],$_POST['need_pay'],0);
                     $this->agentMsg("转账成功！",U('home/wallet/index'));
                 }else{
                     $this->agentMsg($transferResult);

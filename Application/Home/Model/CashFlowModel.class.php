@@ -31,7 +31,6 @@ class CashFlowModel extends Model{
             $startDay = $thisYear . '-' . $thisMonth . '-1';
             $b_time  = strtotime($startDay);
             $maps['create_time'] = array("gt",$b_time);
-           
         }else{
             $startDay = $time . '-1';
             $endDay = $time . '-' . date('t', strtotime($startDay));
@@ -54,6 +53,7 @@ class CashFlowModel extends Model{
         );
         return $arr;
     }
+
     /**
      * @param $id
      * @return mixed|null
@@ -204,8 +204,7 @@ class CashFlowModel extends Model{
      * @param $uid
      * @return bool
      */
-    public function getTransfer($uid)
-    {
+    public function getTransfer($uid){
         $where_transfer['type'] = 1;
         $where_transfer['status'] = 1;
         $TransferObj = $this->where($where_transfer)->where("rec_id = $uid OR pay_id = $uid")->order('create_time desc')->select();
@@ -221,8 +220,7 @@ class CashFlowModel extends Model{
      * @param $uid
      * @return bool
      */
-    public function getTransferPay($uid)
-    {
+    public function getTransferPay($uid){
         $where_transfer['type'] = 1;
         $where_transfer['status'] = 1;
         $where_transfer['pay_id'] = $uid;
@@ -239,8 +237,7 @@ class CashFlowModel extends Model{
      * @param $uid
      * @return bool
      */
-        public function getTransferRec($uid)
-    {
+    public function getTransferRec($uid){
         $where_transfer['type'] = 1;
         $where_transfer['status'] = 1;
         $where_transfer['rec_id'] = $uid;

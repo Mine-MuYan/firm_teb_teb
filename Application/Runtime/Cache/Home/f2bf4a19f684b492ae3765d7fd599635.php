@@ -22,33 +22,23 @@
     <script src="/Public/home/js/RabbitBao.js"></script>
     <script src="/Public/admin/js/echarts.js"></script>
     <script src="/Public/admin/js/china.js"></script>
-    <style>
-        span{
-            color : green;
-        }
-    </style>
 </head>
 <body>
 <div id="header">
     <a href="javascript:;" onclick="back()">
         <img class="back" src="/public/home/images/left.png">
     </a>
-    转账记录
+    金额变动消息
 </div>
-
 <div>
-    <?php if(is_array($transfer)): $i = 0; $__LIST__ = $transfer;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="panel">
+    <?php if(is_array($flow)): $i = 0; $__LIST__ = $flow;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="panel">
             <div class="head"></div>
             <div class="body">
-                <p class="title"><?php echo ($vo["title"]); ?> </p>
-                <p class="time"><?php echo (date("Y",$vo["create_time"])); ?>年<?php echo (date("m",$vo["create_time"])); ?>月<?php echo (date("d",$vo["create_time"])); ?>日</p>
-                <?php if($vo["pay_id"] == $_SESSION['uid']): ?><p class="content">您在<span><?php echo (date("Y年m月d日H:i分",$vo["create_time"])); ?></span>，向<span><?php echo ($vo["username"]); ?></span>转账<span><?php echo (number_format($vo["money"],2)); ?></span>注册币，手续费<span><?php echo (number_format($vo["fee"],2)); ?></span>注册币。</p>
-                <?php elseif($vo["rec_id"] == $_SESSION['uid']): ?>
-                    <p class="content"><span><?php echo ($vo["username"]); ?></span>在<span><?php echo (date("Y年m月d日H:i分",$vo["create_time"])); ?></span>，向您转账<span><?php echo (number_format($vo["money"],2)); ?></span>注册币。</p>
-                <?php else: ?>
-                    <p class="content">XXXXXXXX</p><?php endif; ?>
+                <p class="title">金额变动通知</p>
+                <p class="time"><?php echo (date("m",$vo["create_time"])); ?>月<?php echo (date("d",$vo["create_time"])); ?>日 </p>
+                <p class="content"><?php echo ($vo["remarks"]); ?></p>
+                <p class="money">本次收入：<?php echo ($vo["money"]); ?></p>
             </div>
         </div><?php endforeach; endif; else: echo "" ;endif; ?>
 </div>
-
 </body>

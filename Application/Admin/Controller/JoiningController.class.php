@@ -387,7 +387,7 @@ class JoiningController extends CommondController{
     }
 
     /**业绩查询  -  用户**/
-    /*
+/*
     public function forSeak(){
         $time1 = I('dt1');
         $time2 = I('dt2');
@@ -404,7 +404,8 @@ class JoiningController extends CommondController{
         $this->assign('end',$end);
         $db_user = M('daili_user');
         $where_user['is_service'] = 0;
-        //$where_user['id'] = array('in','1,2,3,4');
+        $where_user['id']= array('in',array('1','2','3','4'));
+        $where_user['_logic'] = 'OR';
         if($time1 != null || $time2 != null) {
             $where_user['create_time'] = array(array('gt', $start), array('lt', $end));
             if($start < $end){
@@ -431,38 +432,26 @@ class JoiningController extends CommondController{
         $this->assign('user',$data_user);
         $this->display();
     }
-    */
+*/
 
     public function forSeak(){
-        $db_user = M('daili_user');
+        $db_user = D('User');
         $where_user['is_service'] = 0 ;
+        $where_user['id']= array('in',array('1','2','3','4'));
+        $where_user['_logic'] = 'OR';
         $res_user = $db_user -> where($where_user) ->select();
-        //TODO 获取用户的总join_fee字段
         foreach($res_user as $k => $v){
-            $where_user1['referee_id'] = $res_user[$k]['id'];
-            $res_user1 = $db_user -> where($where_user1) ->find();
-            foreach($res_user1 as $kk => $vv){
-                $where_user2['referee_id'] = $res_user1[$kk]['id'];
-                $res_user2 = $db_user -> where($where_user2) ->find();
-                foreach($res_user2 as $kkk => $vvv){
-                    $where_user3['referee_id'] = $res_user2[$kkk]['id'];
-                    $res_user3 = $db_user -> where($where_user3) ->find();
-                    foreach($res_user3 as $kkkk => $vvvv){
-                        $where_user4['referee_id'] = $res_user2[$kkkk]['id'];
-                        $res_user = $db_user -> where($where_user4) ->find();
-                    }
-                }
-            }
-
-
-
+            $where_user['referee_id'] = $res_user[$k]['id'];
         }
-
+        p($res_user);
+// TODO ： 递归操作 jion_fee
 
 
         $this->assign('user',$res_user);
+        die;
         $this->display();
     }
+
 
 
 
