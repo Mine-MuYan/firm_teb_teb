@@ -21,17 +21,15 @@ class CashFlowModel extends Model{
     public function getFlow($type,$time,$uid)
     {
         $uid = $_SESSION['uid'];
-        if(IS_AJAX){
-            $type = $_POST['state'];
-            if ($type == "expend"){ //判断为支付或者收入
-                $maps['type'] = array("in",array(1,2,4,10));   //支出  pay_id = $uid
-                $maps['pay_id'] = $uid;
-            }elseif($type == "income") {
-                $maps['type'] = array("in", array(3, 5, 6, 7, 8, 9)); //收入  rec_id = $uid
-                $maps['pay_id'] = $uid;
-            }
+        $type = $_POST['state'];
+        //TODO 怎么判断$type的值
+        if ($type == "expend"){ //判断为支付或者收入
+            $maps['type'] = array("in",array(1,2,4,10));   //支出  pay_id = $uid
+            $maps['pay_id'] = $uid;
+        }elseif($type == "income") {
+            $maps['type'] = array("in", array(3, 5, 6, 7, 8, 9)); //收入  rec_id = $uid
+            $maps['pay_id'] = $uid;
         }
-
         if (empty($time)){ //判断为本月或用户选定月份
             $thisMonth = date('m');
             $thisYear = date('Y');

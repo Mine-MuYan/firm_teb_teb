@@ -1,9 +1,4 @@
 /.git/
-
-/.idea/
-
-/Runtime/
-
+/Application/Runtime/
 /README.md
-
 /5.php
