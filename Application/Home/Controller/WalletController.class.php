@@ -81,7 +81,6 @@ class WalletController extends CommonController{
             );
             $this->ajaxReturn($data);
         }
-        p($flow);die;
         $expend = $flows->getFlow("expend",null,$_SESSION['uid']);
         $income = $flows->getFlow("income",null,$_SESSION['uid']);
         $this->assign("expend",$expend);
