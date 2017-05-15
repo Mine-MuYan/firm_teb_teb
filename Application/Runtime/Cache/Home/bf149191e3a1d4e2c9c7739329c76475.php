@@ -40,7 +40,7 @@
         <div class="selectTime">
             <p class="name">账单月份</p>
             <div class="time">
-                <input class="choiceTime" state="expend" type="month" value="">
+                <input class="choiceTime" state="expend" type="month" value="" />
             </div>
         </div>
         <div class="totalMoney">
@@ -76,7 +76,7 @@
             <p class="name">账单月份</p>
             <div class="time">
                 <!--<img class="right" src="/public/home/images/right.png">-->
-                <input class="choiceTime" state="income" type="month" value="">
+                <input class="choiceTime" state="income" type="month" value="" />
             </div>
         </div>
         <div class="totalMoney">
@@ -136,10 +136,11 @@
                                 "</li>" +
                                 "</a>");
                     }
-                }else{
+                }
+                if (data.type == "income"){
                     $(".income .specific ul").html("");
                     $(".income .totalMoney .money").html("+" + data.money);
-                    $(".income .totalMoney .news").html("本月支出" + data.count + "笔");
+                    $(".income .totalMoney .news").html("本月收入" + data.count + "笔");
                     for(var i = 0;i < data.flow.flow.length;i++){
                         var url = "<?php echo U('home/wallet/singleDetailed/type/1/flow_id/" + data.flow.flow[i].id +"');?>";
                         $(".income .specific ul").append(

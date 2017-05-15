@@ -66,9 +66,10 @@ class WalletController extends CommonController{
         $flows = D("CashFlow");
         if (IS_AJAX){
             $time = $_POST['time'];
-            if ($_POST['state'] == "expend"){
+            $type = $_POST['state'];
+            if ($type == "expend"){
                 $flow = $flows->getFlow("expend",$time,$_SESSION['uid']);
-            }else{
+            }elseif ($type == "income"){
                 $flow = $flows->getFlow("income",$time,$_SESSION['uid']);
             }
             foreach ($flow['flow'] as $k => $value) {
@@ -80,6 +81,7 @@ class WalletController extends CommonController{
             );
             $this->ajaxReturn($data);
         }
+        p($flow);die;
         $expend = $flows->getFlow("expend",null,$_SESSION['uid']);
         $income = $flows->getFlow("income",null,$_SESSION['uid']);
         $this->assign("expend",$expend);
@@ -113,9 +115,9 @@ class WalletController extends CommonController{
         $flows = D("PointsFlow");
         if (IS_AJAX){
             $time = $_POST['time'];
-            if ($_POST['state'] == "expend"){
+            if (I('state') == "expend"){
                 $flow = $flows->getFlow("expend",$time,$_SESSION['uid']);
-            }else{
+            }elseif (I('state') == "income"){
                 $flow = $flows->getFlow("income",$time,$_SESSION['uid']);
             }
             foreach ($flow['flow'] as $k => $value) {
