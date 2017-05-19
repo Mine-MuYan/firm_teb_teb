@@ -61,15 +61,14 @@ class WalletController extends CommonController{
     }
 
     /**转账记录**/
-    public function moneyDetail()
-    {
+    public function moneyDetail(){
         $flows = D("CashFlow");
-        if (IS_AJAX){
+        if (IS_POST){
             $time = $_POST['time'];
-            $type = $_POST['state'];
-            if ($type == "expend"){
+            $state = $_POST['state'];
+            if ($state == "expend"){
                 $flow = $flows->getFlow("expend",$time,$_SESSION['uid']);
-            }elseif ($type == "income"){
+            }elseif ($state == "income"){
                 $flow = $flows->getFlow("income",$time,$_SESSION['uid']);
             }
             foreach ($flow['flow'] as $k => $value) {
@@ -209,15 +208,19 @@ class WalletController extends CommonController{
         if(IS_POST){
             $userObj = D("User");
             $transfer = D("Transfer");
+            $flow = D('cashFlow');
             $rec_message = $userObj->getUserByMobile($_POST['rec_mobile']);
-            $addCashFlow = D('cashFlow')->addFlow($_SESSION['uid'],$rec_message['id'],1,$_POST['need_pay'],'注册币转账',0);
+            $addCashFlow = $flow -> addFlow($_SESSION['uid'],$rec_message['id'],1,$_POST['need_pay'],'注册币转账',0);
             if ($addCashFlow){
                 $transferResult = $userObj->transfer($_POST['rec_mobile'],$_SESSION['uid'],$_POST['need_pay']);
-                if($transferResult == 1){
-                    $transfer -> addTransfer($_SESSION['uid'],$rec_message['id'],$_POST['need_pay'],0);
+                $transfer -> addTransfer($_SESSION['uid'],$rec_message['id'],$_POST['need_pay'],0);   //写入转账表
+                $transfer -> changeStatus($transferResult);
+                if($transferResult == 2){
                     $this->agentMsg("转账成功！",U('home/wallet/index'));
+                }elseif($transferResult == 4){
+                    $this->agentMsg("余额不足");
                 }else{
-                    $this->agentMsg($transferResult);
+                    $this->agentMsg("转账错误代码 $transferResult ,请尽快联系客服。");
                 }
             }else{
                 $this->agentMsg('转账失败！');
