@@ -90,4 +90,19 @@ class TransferModel extends Model{
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function changeStatus($statu)
+    {
+        $where['status'] = array('neq',1);
+        $where['create_time'] = time();
+        $status = $this->where($where)->setField("status",$statu);
+        if ($status){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

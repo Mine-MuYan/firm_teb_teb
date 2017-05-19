@@ -43,20 +43,21 @@ class UserModel extends Model{
     {
         $user_money = $this->where(array('id'=>$pay_user))->getField("register_coin");
         if ($user_money >= $need_pay){
-            $pay = $this->where(array('id'=>$pay_user))->setDec("register_coin",$need_pay);
+            $pay = $this->where(array('id'=>$pay_user))->setDec("register_coin",$need_pay);   //从转出账户扣款
             if ($pay){
-                $get = $this->where(array('tel'=>$rec_mobile))->setInc("register_coin",$need_pay);
+                $get = $this->where(array('tel'=>$rec_mobile))->setInc("register_coin",$need_pay); //给转入账户增款
                 if ($get){
-                    return 1;
+                    $msg = 2;  //收账账户增款成功
                 }else{
-                    return "未到账";
+                    $msg = 3; //转账账户扣款成功，但是收账账户未到账
                 }
             }else{
-                return "转账失败";
+                $msg = 1;  //转账人未扣款
             }
         }else{
-            return "余额不足";
+            $msg = 4; //余额不足
         }
+        return $msg;
     }
 
     /**
