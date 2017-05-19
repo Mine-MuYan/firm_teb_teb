@@ -220,7 +220,7 @@ class WalletController extends CommonController{
                 }elseif($transferResult == 4){
                     $this->agentMsg("余额不足");
                 }else{
-                    $this->agentMsg("转账错误代码 $transferResult ,请尽快联系客服。");
+                    $this->agentMsg("转账失败,错误代码 $transferResult ,请尽快联系客服。");
                 }
             }else{
                 $this->agentMsg('转账失败！');
