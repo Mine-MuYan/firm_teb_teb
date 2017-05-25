@@ -1,0 +1,39 @@
+<block name="include"><include file="default:Public/header" /></block>
+<link rel="stylesheet" href="/public/home/css/RabbitBao.css">
+<link rel="stylesheet" href="/public/home/css/task.css">
+<script src="/Public/home/js/RabbitBao.js"></script>
+<script src="/Public/admin/js/echarts.js"></script>
+<script src="/Public/admin/js/china.js"></script>
+<style>
+    span{
+        color : green;
+    }
+</style>
+</head>
+<body>
+<div id="header">
+    <a href="javascript:;" onclick="back()">
+        <img class="back" src="/public/home/images/left.png">
+    </a>
+    历史记录
+</div>
+
+<volist name="res_msg" id="vo">
+    <div class="panel">
+        <a href="{:U('home/feed/refeedbkin',array('id'=>$vo['id']))}">
+        <div class="head"></div>
+        <div class="body">
+            <p class="title">{$vo.title}</p>
+            <p class="time">{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}</p>
+            <p class="content">反馈内容：{$vo.content} </p>
+            <if condition="$vo.status neq 2">
+                <p class="content" style="text-align: right;"> <a style="color:green;" href="{:U('home/feed/feedbker',array('id'=>$vo['id']))}">继续回复</a></p>
+            </if>
+        </div>
+        </a>
+    </div>
+</volist>
+
+</body>
+
+</html>

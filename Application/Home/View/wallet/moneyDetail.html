@@ -18,49 +18,12 @@
     </div>
 </div>
 <div class="detailBody">
-    <div class="expend hidden" style="display: none">
-        <div class="selectTime">
-            <p class="name">账单月份</p>
-            <div class="time">
-                <input class="choiceTime" state="expend" type="month" value="" />
-            </div>
-        </div>
-        <div class="totalMoney">
-            <p class="money">
-                {$expend.money}
-            </p>
-            <p class="explain">
-                本月支出
-            </p>
-        </div>
-        <div class="news">
-            本月支出{$expend.count}笔
-        </div>
-        <div class="specific">
-            <ul>
-                <volist name="expend.flow" id="vo">
-                    <a href="{:U('home/wallet/singleDetailed?type=1&flow_id='.$vo['id'])}">
-                        <li>
-                            <div class="left">
-                                <p class="explain">{$vo.remarks}</p>
-                                <p class="time">{$vo.create_time|date="Y-m-d",###}</p>
-                            </div>
-                            <div class="right">
-                                <p class="money">{$vo.money}</p>
-                                <img class="right" src="/public/home/images/right.png">
-                            </div>
-                        </li>
-                    </a>
-                </volist>
-            </ul>
-        </div>
-    </div>
     <div class="income hidden">
         <div class="selectTime">
             <p class="name">账单月份</p>
             <div class="time">
                 <!--<img class="right" src="/public/home/images/right.png">-->
-                <input class="choiceTime" state="income" type="month" value="" />
+                <input class="choiceTime" state="income" type="month" value=""/>
             </div>
         </div>
         <div class="totalMoney">
@@ -93,6 +56,44 @@
             </ul>
         </div>
     </div>
+    <div class="expend hidden" style="display: none">
+        <div class="selectTime">
+            <p class="name">账单月份</p>
+            <div class="time">
+                <input class="choiceTime" state="expend" type="month" value=""/>
+            </div>
+        </div>
+        <div class="totalMoney">
+            <p class="money">
+                {$expend.money}
+            </p>
+            <p class="explain">
+                本月支出
+            </p>
+        </div>
+        <div class="news">
+            本月支出{$expend.count}笔
+        </div>
+        <div class="specific">
+            <ul>
+                <volist name="expend.flow" id="vo">
+                    <a href="{:U('home/wallet/singleDetailed?type=1&flow_id='.$vo['id'])}">
+                        <li>
+                            <div class="left">
+                                <p class="explain">{$vo.remarks}</p>
+                                <p class="time">{$vo.create_time|date="Y-m-d",###}</p>
+                            </div>
+                            <div class="right">
+                                <p class="money">{$vo.money}</p>
+                                <img class="right" src="/public/home/images/right.png">
+                            </div>
+                        </li>
+                    </a>
+                </volist>
+            </ul>
+        </div>
+    </div>
+
 </div>
 <script>
     $(".choiceTime").change(function () {

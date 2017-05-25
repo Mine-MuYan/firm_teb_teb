@@ -30,7 +30,7 @@
                 <elseif condition="$vo.rec_id eq $_SESSION['uid']" />
                     <p class="content"><span>{$vo.username}</span>在<span>{$vo.create_time|date="Y年m月d日H:i分",###}</span>，向您转账<span>{$vo.money|number_format=2}</span>注册币。</p>
                 <else />
-                    <p class="content">XXXXXXXX</p>
+                    <p class="content">发生未知错误，请联系客服。</p>
                 </if>
             </div>
         </div>

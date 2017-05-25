@@ -401,7 +401,6 @@ class UserModel extends Model{
         }
     }
 
-
     /**
      * 获取总的业绩
      * @param $ids
@@ -436,5 +435,19 @@ class UserModel extends Model{
         }
     }
 
+    /**
+     * 获取所有下级人员的ids
+     * @param $ids
+     */
+    public function getAllIds($ids){
+        $where_id['referee_id'] = array('in',$ids);
+        $this->lowerIds[] = $ids;
+        $result_ids = $this->where($where_id)->select();
+        if(!empty($result_ids)){
+            foreach($result_ids as $value){
+                $this->getAllIds($value['id']);
+            }
+        }
+    }
 
 }

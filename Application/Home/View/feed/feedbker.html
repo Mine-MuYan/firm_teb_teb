@@ -1,0 +1,65 @@
+<block name="include"><include file="default:Public/header" /></block>
+<link rel="stylesheet" href="/public/home/css/RabbitBao.css">
+<link rel="stylesheet" href="/public/home/css/task.css">
+<script src="/Public/home/js/RabbitBao.js"></script>
+<script src="/Public/admin/js/echarts.js"></script>
+<script src="/Public/admin/js/china.js"></script>
+<script src="/Public/admin/js/jquery.js"></script>
+<style type="text/css">
+    textarea{
+        resize:none;
+        width:100%;
+        height:200px;
+        border:none;
+        font-size:16px;
+        outline:none;
+        padding:10px 0;
+    }
+    .main{
+        padding-top:10px;
+        margin-bottom: 20px;
+    }
+    #btn{
+        width:100%;
+        height:40px;
+        background-color:#DDDDDD ;
+        color: #fff;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+<div id="header">
+    <a href="javascript:;" onclick="back()">
+        <img class="back" src="/public/home/images/left.png">
+    </a>
+    接着回复
+</div>
+<form method="post" class="form-x">
+    <div class="main">
+        <div class="demo">
+            <textarea id= "info" name="content" rows="6" cols="100" placeholder='在此继续回复客服...'></textarea>
+        </div>
+    </div>
+    <button id="btn" type="submit">提交</button>
+</form>
+
+
+</body>
+<script>
+$("#btn").attr({"disabled":"disabled"});
+$('#info').keyup(function(){
+    var val = $('#info').val();
+    var btn = 	$("#btn");
+    if(val){
+        btn.removeAttr("disabled");//将按钮可用
+        btn.css("background-color","#f00")
+    }else{
+        btn.attr({"disabled":"disabled"});
+        btn.css("background-color","#DDD")
+    }
+});
+</script>
+</html>

@@ -297,3 +297,21 @@ function getIP()
     }
     return $realip;
 }
+
+
+ /**
+  * print_r()函数简化
+  */
+ function p($str){
+     echo '<div style="border: 1px solid bisque;border-bottom-color:red;border-right-color:red;color:green;background-color: bisque "><pre>';
+     print_r($str);
+     echo '</pre></div>';
+ }
+ /**
+  * var_dump()函数简化
+  */
+ function v($str){
+     echo '<div style="border: 1px solid bisque;color:green;background-color: bisque "><pre>';
+     var_dump($str);
+     echo '</pre></div>';
+ }

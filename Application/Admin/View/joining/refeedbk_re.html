@@ -1,0 +1,57 @@
+<include file="./Application/admin/View/default/Public/homeheader.html"/>
+<br>
+
+<div class="container">
+    <div class="panel">
+        <div class="panel-head">消息回复</div>
+        <div class="panel-body">
+            <div class="table-responsive-y">
+                <table class="table table-bordered" style="text-align: center">
+                        <tr>
+                            <td style="text-align: center;width:10%">ID</td><td style="text-align: left">{$res_msg.id}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">代理商ID</td><td style="text-align: left">{$res_msg.uid}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">内容</td><td style="text-align: left">{$res_msg.content}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">反馈时间</td><td style="text-align: left">{$res_msg.create_time|date='Y-m-d H:i:s',###}</td>
+                        </tr>
+                </table>
+                <br><br>
+                <table class="table table-bordered" style="text-align: center">
+                    <th colspan="2"> 历史消息 </th>
+                    <volist name="res_msg_re" id="vo">
+                        <tr>
+                            <td style="text-align: center;width:10%">管理员ID</td><td style="text-align: left">{$vo.aid}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">回复内容</td><td style="text-align: left">{$vo.re_content}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">回复时间</td><td style="text-align: left">{$vo.create_time|date='Y-m-d H:i:s',###}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center"></td><td style="text-align: left"></td>
+                        </tr>
+                    </volist>
+                </table>
+                <br><br>
+                <form action="{:U('admin/joining/refeedbk_reing')}" method="post">
+                    <input type="hidden" name="id" value="{$res_msg.id}">
+                    <input type="hidden" name="aid" value="{$res_msg.aid}">
+                    <textarea  name="content" rows="6" cols="120" placeholder='在这里回复吧'></textarea>
+                    <br>
+                    <button  type="submit" onclick="javascript:history.back(-1);return false;">返回</button>
+                    <button  type="submit">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</div>
+

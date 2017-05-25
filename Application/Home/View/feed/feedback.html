@@ -1,0 +1,38 @@
+<block name="include"><include file="default:Public/header" /></block>
+<link rel="stylesheet" href="/public/home/css/common.css">
+<link rel="stylesheet" href="/public/home/css/set.css">
+<script src="/Public/home/js/common.js"></script>
+<script src="/Public/home/js/jquery.js"></script>
+
+<style>
+    span{
+        color : green;
+    }
+</style>
+</head>
+<body>
+<div id="header">
+    <a href="{:U('home/set/setList')}">
+        <img class="back" src="/public/home/images/left.png">
+    </a>
+    客服中心
+</div>
+<div class="list-main">
+    <a href="{:U('home/feed/refeedbk')}">
+        <div class="list-file">
+            <span>意见反馈</span><img src="/public/home/images/1_06.png"/>
+        </div>
+    </a>
+    <a href="{:U('home/feed/refeedbkList')}">
+        <div class="list-file">
+            <span>处理中的反馈</span><img src="/public/home/images/1_06.png"/>
+        </div>
+    </a>
+
+</div>
+
+
+
+
+</body>
+</html>
