@@ -3,12 +3,29 @@ namespace Home\Controller;
 use Think\Controller;
 
 class FeedController extends CommonController{
+    /**
+     * daili_message（反馈表）中status字段说明
+     *状态为0：等待客服处理
+     *状态为1：客服正在处理中，客户回复信息将记录在第一条反馈信息之下
+     *状态为2：客服处理完成，客户反馈，将成为新的反馈信息
+     *状态为4：客户针对当前反馈的回复信息
+     * 不喜欢3，所以状态只有0,1,2,4
+     */
+
+    /**
+     * daili_message_reply（回复表）中status字段说明
+     *状态为0：未处理
+     *状态为1：正在处理中
+     *状态为2：处理完成
+     */
+
+
     /**客服中心首页**/
     public function feedback(){
         $this->display();
     }
 
-    /**增加留言**/
+    /**意见反馈**/
     public function refeedbk(){
         $db_msg = M('daili_message');
         $data['uid'] = $_SESSION['uid'];
@@ -21,28 +38,30 @@ class FeedController extends CommonController{
         $this->display();
     }
 
-    /**继续写留言**/
+    /**加载继续反馈页面**/
     public function feedbker(){
+        $data['mid'] = I('id');
+        $data['aid'] = I('aid');
+        $this->assign('data',$data);
+        $this->display();
+    }
+
+    /**继续反馈动作**/
+    public function refeedbkerr(){
         $db_msg = M('daili_message');
         $data['content'] = I('content');
         $data['create_time'] = time();
         $data['status'] = 4;
         $data['uid'] = $_SESSION['uid'];
-        $data['mid'] = I('id');
-        // mid 的获取 ？
+        $data['mid'] = I('mid');
+        $data['aid'] = I('aid');
         if(!empty($data['content'])){
             $db_msg->data($data)->add();
+            $this->redirect('home/feed/refeedbkList','回复成功，跳转中...');
         }
-
-        $this->display();
     }
 
-// 状态为0：等待客服处理
-// 状态为1：客服正在处理中，客户回复信息，则记录在上条信息之下 mid = id       uid = 1
-// 状态为2：客服处理完成，客户反馈，将成为新的反馈信息
-// 状态为4：客户针对当前反馈的回复信息
-
-    /**历史记录**/
+    /**反馈历史**/
     public function refeedbkList(){
         $db_msg = M('daili_message');
         $where['uid'] = $_SESSION['uid'];
@@ -54,7 +73,7 @@ class FeedController extends CommonController{
             if($res_msg[$k]['status'] == 0){
                 $res_msg[$k]['title'] = '等待客服处理中...';
             }elseif($res_msg[$k]['status'] == 1){
-                $res_msg[$k]['title'] = '正在处理中';
+                $res_msg[$k]['title'] = '正在处理中...';
             }elseif($res_msg[$k]['status'] == 2){
                 $res_msg[$k]['title'] = '回复成功，已关闭';
             }else{
@@ -65,7 +84,7 @@ class FeedController extends CommonController{
         $this->display();
     }
 
-    /**详情**/
+    /**反馈详情**/
     public function refeedbkin(){
         $db_msg = M('daili_message');
         $db_re = M('daili_message_reply');
@@ -97,42 +116,5 @@ class FeedController extends CommonController{
         $this->assign('total',$total);
         $this->display();
     }
-
-
-    // UID = $session['uid']
-    //mid = id
-
-    /* 在客户未关闭的反馈后写入新回复
-    $where['uid'] = $_SESSION['uid'];
-    $res_msg = $db_msg -> where($where) -> select();
-    $data['uid'] = $_SESSION['uid'];
-    $data['content'] = I('content');
-    $data['create_time'] = time();
-    foreach ($res_msg as $k => $v) {
-        $where_bk['uid'] = $_SESSION['uid'];
-        //$where_bk['status'] = 1 ;
-        $where_bk['mid'] = $res_msg[$k]['id'];   //mid = id 在客户第一次的反馈后写入新回复
-        $res_bk = $db_msg -> where($where_bk) -> order("create_time DESC") -> find();
-        if($res_msg[$k]['status'] == 1){   //状态为1：客服正在处理中，客户回复信息，则记录在上条信息之下
-            $data['mid'] = $res_msg[$k]['id'];
-            $data['status'] = 3;
-            if(!empty($data['content'])){
-                $db_msg->data($data)->add();
-            }
-        }
-    }
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 }

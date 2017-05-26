@@ -35,9 +35,11 @@
     <a href="javascript:;" onclick="back()">
         <img class="back" src="/public/home/images/left.png">
     </a>
-    接着回复
+    继续反馈
 </div>
-<form method="post" class="form-x">
+<form method="post" class="form-x" action="{:U('home/feed/refeedbkerr',array('id'=>$vo['id']))}">
+    <input type="hidden" value="{$data.mid}" name="mid">
+    <input type="hidden" value="{$data.aid}" name="aid">
     <div class="main">
         <div class="demo">
             <textarea id= "info" name="content" rows="6" cols="100" placeholder='在此继续回复客服...'></textarea>
