@@ -7,41 +7,64 @@
         <div class="panel-body">
             <div class="table-responsive-y">
                 <table class="table table-bordered" style="text-align: center">
-                        <tr>
-                            <td style="text-align: center;width:10%">ID</td><td style="text-align: left">{$res_msg.id}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">代理商ID</td><td style="text-align: left">{$res_msg.uid}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">内容</td><td style="text-align: left">{$res_msg.content}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">反馈时间</td><td style="text-align: left">{$res_msg.create_time|date='Y-m-d H:i:s',###}</td>
-                        </tr>
+                    <tr>
+                        <td style="text-align: center;width:10%">当前反馈ID</td><td style="text-align: left">{$res_msg_detail.id}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">代理商ID</td><td style="text-align: left">{$res_msg_detail.uid}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">回复管理员ID</td><td style="text-align: left">{$res_msg_detail.aid}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">反馈内容</td><td style="text-align: left">{$res_msg_detail.content}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">反馈时间</td><td style="text-align: left">{$res_msg_detail.create_time|date='Y-m-d H:i:s',###}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">上次回复时间</td>
+                        <td style="text-align: left">
+                            <if condition="$res_msg_detail.reply_time eq null"> -
+                                <else/> {$res_msg_detail.reply_time|date='Y-m-d H:i:s',###} </if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">反馈状态</td>
+                        <td style="text-align: left">
+                            <if condition="$res_msg_detail.status eq 0"> 未回复
+                                <elseif condition="$res_msg_detail.status eq 1"/>回复中
+                                <elseif condition="$res_msg_detail.status eq 2"/>已完成
+                                <else /> 客户的再次回复信息
+                            </if>
+                        </td>
+                    </tr>
                 </table>
                 <br><br>
                 <table class="table table-bordered" style="text-align: center">
-                    <th colspan="2"> 历史消息 </th>
-                    <volist name="res_msg_re" id="vo">
-                        <tr>
-                            <td style="text-align: center;width:10%">管理员ID</td><td style="text-align: left">{$vo.aid}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">回复内容</td><td style="text-align: left">{$vo.re_content}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">回复时间</td><td style="text-align: left">{$vo.create_time|date='Y-m-d H:i:s',###}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center"></td><td style="text-align: left"></td>
-                        </tr>
+                    <th colspan="2">历史消息</th>
+                    <volist name="total" id="vo">
+                        <if condition="($vo.mid neq 0) OR ($vo.msgid neq 0)">
+                            <if condition="$vo.content neq null ">
+                                <tr style="text-align: left">
+                                    <td>客户：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}
+                                    <br><br>{$vo.content} </td>
+                                </tr>
+                            </if>
+                            <if condition="$vo.re_content neq null ">
+                                <tr style="text-align: right">
+                                    <td style="color:blue">客服：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}
+                                    <br><br>{$vo.re_content} </td>
+                                </tr>
+                            </if>
+                        </if>
                     </volist>
                 </table>
                 <br><br>
-                <form action="{:U('admin/joining/refeedbk_reing')}" method="post">
+                <form action="{:U('admin/joining/refeedbk_reing',array('status'=>$res_msg['status']))}" method="post">
                     <input type="hidden" name="id" value="{$res_msg.id}">
                     <input type="hidden" name="aid" value="{$res_msg.aid}">
+                    <input type="hidden" name="status" value="{$res_msg.status}">
                     <textarea  name="content" rows="6" cols="120" placeholder='在这里回复吧'></textarea>
                     <br>
                     <button  type="submit" onclick="javascript:history.back(-1);return false;">返回</button>
@@ -49,9 +72,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="page">
-        {$_page}
     </div>
 </div>
 

@@ -575,18 +575,26 @@ class JoiningController extends CommondController{
         $this->display();
     }
 
+    /**反馈列表**/
     public function refeedbk(){
         $db_msg = M('daili_message');
         $db_admin = M('daili_admin');
-        $count = $db_msg->count();
-        $Page = new \Think\Page($count, 20);
         $where_msg['mid'] = 0;
         $where_msg['status'] = array('lt',3);
+        $count = $db_msg-> where($where_msg) -> count();
+        $Page = new \Think\Page($count, 20);
         foreach ($_POST as $key => $val) {
             $Page->parameter[$key] = urlencode($val);
         }
         $show = $Page->show();
         $res_msg = $db_msg->order('id DESC')->limit($Page->firstRow . ',' . $Page->listRows)-> where($where_msg) -> select();
+        foreach($res_msg as $k => $v){
+            if(strlen($res_msg[$k]['content']) < 80){
+                $res_msg[$k]['n_content'] = $res_msg[$k]['content'];
+            }else{
+                $res_msg[$k]['n_content'] = substr($res_msg[$k]['content'],0,80).'......';
+            }
+        }
         foreach ($res_msg as $k => $v) {
             $where['admin_id'] = $_SESSION['uid'];
             $res_nmsg = $db_admin->where($where)->find();
@@ -597,7 +605,7 @@ class JoiningController extends CommondController{
         $this->display();
     }
 
-    /**删除留言**/
+    /**删除反馈**/
     public function refeedbk_del(){
         $db_msg = M('daili_message');
         $where['id'] = I('id');
@@ -609,48 +617,72 @@ class JoiningController extends CommondController{
         }
     }
 
-    /**回复**/
+    /**查看/回复/关闭反馈 - 判断**/
     public function refeedbk_re(){
         $db_msg_re = M('daili_message_reply');
         $db_msg = M('daili_message');
         $data['aid'] = $_SESSION['uid'];
         $where['id'] = I('id');
         $where_msg_re['msgid'] = I('id');
-        $db_msg -> data($data) -> where($where) -> save();   //将当前操作的管理员写入message表中
-        $res_msg = $db_msg -> where($where) -> find();
-        $res_msg_re = $db_msg_re -> where($where_msg_re) -> order('create_time DESC') -> select();
-        foreach($res_msg_re as $k => $v) {
-            if ($res_msg_re[$k]['status'] == 2) {
-                $this->error('此反馈已关闭，不可再回复');
-            }
+        $db_msg -> data($data) -> where($where) -> save();
+        $res_msg_detail = $db_msg -> where($where) -> find();
+        $this->assign('res_msg_detail',$res_msg_detail);
+        //下面是核心代码
+        $where_msg['uid'] = $res_msg_detail['uid'];
+        $where_msg['status'] = array('in','0,1,2,4') ;
+        $where['mid'] = 0 ;
+        $res_msg = $db_msg -> where($where_msg) ->where($where) -> select();
+        foreach($res_msg as $k => $v) {
+            $array[] = $res_msg[$k]['id'];
         }
-        $this->assign('res_msg',$res_msg);
-        $this->assign('res_msg_re',$res_msg_re);
+        $where_msg['mid'] = array('in',$array);
+        $where_re['msgid'] = array('in',$array);
+        $where_re['status'] = array('in','0,1,2') ;
+        $res_msg = $db_msg -> where($where_msg) -> order("create_time DESC") -> select();
+        $res_re = $db_msg_re -> where($where_re) -> order("create_time DESC") -> select();
+        foreach ($res_msg as $k => $v) {
+            $res_msg[$k]['msgid'] = 0;
+            $res_msg[$k]['re_content'] = null;
+            $res_msg[$k]['cid'] = I('id');
+        }
+        foreach ($res_re as $k => $v) {
+            $res_re[$k]['mid'] = 0;
+            $res_re[$k]['content'] = null;
+            $res_re[$k]['cid'] = I('id');
+        }
+        $total = array_merge($res_msg,$res_re);
+        array_multisort(array_column($total,'create_time'),SORT_ASC,$total);   //将合并数组按照create_time升序排列
+        $this->assign('total',$total);
         $this->display();
     }
 
-    /**回复 功能**/
+    /**回复反馈 - 动作**/
     public function refeedbk_reing(){
         $db_msg_re = M('daili_message_reply');
         $db_msg = M('daili_message');
         $date['reply_time'] = time();   //修改message表中的回复时间
         $date['status'] = 1 ;
         $where['id'] = I('id');
+        $where['status'] = I('status');
         $data['re_content'] = I('content');
         $data['msgid'] = I('id');
         $data['aid'] = I('aid');
         $data['create_time'] = time();
         $data['status'] = 1 ;
         if(!empty($data['re_content'])){
-            $db_msg -> data($date) -> where($where) -> save();
-            $db_msg_re -> data($data) -> add();
-            $this->success('回复成功', U('admin/joining/refeedbk'));
+            if($where['status'] == 0 || $where['status'] == 1){
+                $db_msg -> data($date) -> where($where) -> save();
+                $db_msg_re -> data($data) -> add();
+                $this->success('回复成功', U('admin/joining/refeedbk'));
+            }else{
+                $this->error('此反馈已关闭，不可再回复');
+            }
         }else{
             $this->error('回复内容不能为空。');
         }
     }
 
-    /**结束此次对话**/
+    /**关闭反馈**/
     public function refeedbk_end(){
         $db_re = M('daili_message_reply');
         $db_msg = M('daili_message');
@@ -662,9 +694,8 @@ class JoiningController extends CommondController{
         if($res_re && $res_msg){
             $this->success('关闭成功', U('admin/joining/refeedbk'));
         }else{
-            $this->error('此反馈已成功关闭，请勿多次操作!<br>若想继续操作此反馈，请联系技术人员。');
+            $this->error('关闭成功了，请及时联系技术人员');
         }
-
     }
 
 
