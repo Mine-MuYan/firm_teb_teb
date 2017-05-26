@@ -31,12 +31,14 @@
 </style>
 </head>
 <body>
+
 <div id="header">
     <a href="javascript:;" onclick="back()">
         <img class="back" src="/public/home/images/left.png">
     </a>
     继续反馈
 </div>
+
 <form method="post" class="form-x" action="{:U('home/feed/refeedbkerr',array('id'=>$vo['id']))}">
     <input type="hidden" value="{$data.mid}" name="mid">
     <input type="hidden" value="{$data.aid}" name="aid">
@@ -47,9 +49,8 @@
     </div>
     <button id="btn" type="submit">提交</button>
 </form>
-
-
 </body>
+
 <script>
 $("#btn").attr({"disabled":"disabled"});
 $('#info').keyup(function(){
@@ -64,4 +65,5 @@ $('#info').keyup(function(){
     }
 });
 </script>
+
 </html>

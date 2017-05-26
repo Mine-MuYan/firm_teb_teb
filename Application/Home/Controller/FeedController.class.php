@@ -19,7 +19,6 @@ class FeedController extends CommonController{
      *状态为2：处理完成
      */
 
-
     /**客服中心首页**/
     public function feedback(){
         $this->display();
@@ -116,5 +115,5 @@ class FeedController extends CommonController{
         $this->assign('total',$total);
         $this->display();
     }
- 
+
 }

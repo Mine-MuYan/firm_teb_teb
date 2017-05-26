@@ -13,26 +13,26 @@
     反馈详情
 </div>
 
-    <div class="panel">
-        <div class="body">
-            <volist name="total" id="vo">
-                <if condition="($vo.mid neq 0) OR ($vo.msgid neq 0)">
-                    <if condition="$vo.content neq null ">
-                        <div style="text-align: right">
-                            <p class="time" style="color:green">客户：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}</p>
-                            <p class="content">{$vo.content} </p>
-                        </div>
-                    </if>
-                    <if condition="$vo.re_content neq null ">
-                        <div style="text-align: left">
-                            <p class="time" style="color:red">客服：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}</p>
-                            <p class="content">{$vo.re_content} </p>
-                        </div>
-                    </if>
+<div class="panel">
+    <div class="body">
+        <volist name="total" id="vo">
+            <if condition="($vo.mid neq 0) OR ($vo.msgid neq 0)">
+                <if condition="$vo.content neq null ">
+                    <div style="text-align: right">
+                        <p class="time" style="color:green">客户：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}</p>
+                        <p class="content">{$vo.content} </p>
+                    </div>
                 </if>
-            </volist>
-        </div>
+                <if condition="$vo.re_content neq null ">
+                    <div style="text-align: left">
+                        <p class="time" style="color:blue">客服：{$vo.create_time|date="Y",###}年{$vo.create_time|date="m",###}月{$vo.create_time|date="d",###}日{$vo.create_time|date="H",###}:{$vo.create_time|date="i",###}:{$vo.create_time|date="s",###}</p>
+                        <p class="content">{$vo.re_content} </p>
+                    </div>
+                </if>
+            </if>
+        </volist>
     </div>
+</div>
 
 </body>
 
