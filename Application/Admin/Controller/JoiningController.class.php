@@ -617,17 +617,15 @@ class JoiningController extends CommondController{
         }
     }
 
-    /**查看/回复/关闭反馈 - 判断**/
+    /**查看/回复反馈 - 判断**/
     public function refeedbk_re(){
         $db_msg_re = M('daili_message_reply');
         $db_msg = M('daili_message');
-        $data['aid'] = $_SESSION['uid'];
         $where['id'] = I('id');
         $where_msg_re['msgid'] = I('id');
-        $db_msg -> data($data) -> where($where) -> save();
         $res_msg_detail = $db_msg -> where($where) -> find();
         $this->assign('res_msg_detail',$res_msg_detail);
-        //下面是核心代码
+        /**the following is the kernel code to show messages and replies(Admin)**/
         $where_msg['uid'] = $res_msg_detail['uid'];
         $where_msg['status'] = array('in','0,1,2,4') ;
         $where['mid'] = 0 ;
@@ -656,29 +654,31 @@ class JoiningController extends CommondController{
         $this->display();
     }
 
-    /**回复反馈 - 动作**/
+    /**回复反馈(提交按钮) - 动作**/
     public function refeedbk_reing(){
         $db_msg_re = M('daili_message_reply');
         $db_msg = M('daili_message');
-        $date['reply_time'] = time();   //修改message表中的回复时间
-        $date['status'] = 1 ;
-        $where['id'] = I('id');
-        $where['status'] = I('status');
-        $data['re_content'] = I('content');
-        $data['msgid'] = I('id');
-        $data['aid'] = I('aid');
-        $data['create_time'] = time();
-        $data['status'] = 1 ;
-        if(!empty($data['re_content'])){
-            if($where['status'] == 0 || $where['status'] == 1){
-                $db_msg -> data($date) -> where($where) -> save();
+        if(I('status') == 2 ){
+            $this->error('此反馈已关闭，不可再回复。');
+        }else{
+            /**write into table message**/
+            $date['aid'] = $_SESSION['uid'];
+            $date['reply_time'] = time();   //修改message表中的回复时间
+            $date['status'] = 1 ;
+            $where_msg['id'] = I('id');
+            /**write into table message_reply**/
+            $data['re_content'] = I('content');
+            $data['msgid'] = I('id');
+            $data['aid'] = $_SESSION['uid'];
+            $data['create_time'] = time();
+            $data['status'] = 1 ;
+            if(!empty($data['re_content'])){
+                $db_msg -> data($date) -> where($where_msg) -> save();
                 $db_msg_re -> data($data) -> add();
                 $this->success('回复成功', U('admin/joining/refeedbk'));
             }else{
-                $this->error('此反馈已关闭，不可再回复');
+                $this->error('回复内容不能为空。');
             }
-        }else{
-            $this->error('回复内容不能为空。');
         }
     }
 

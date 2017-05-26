@@ -92,6 +92,7 @@ class FeedController extends CommonController{
         $where_msg['status'] = array('in','1,2,4') ;
         $where['mid'] = 0 ;
         $res_msg = $db_msg -> where($where_msg) ->where($where) -> select();
+        /**the following is the kernel code to show messages and replies(Home)**/
         foreach($res_msg as $k => $v) {
             $array[] = $res_msg[$k]['id'];
         }
