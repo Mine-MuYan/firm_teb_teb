@@ -317,17 +317,22 @@ class WalletController extends CommonController{
 //                }
 //            }
             if(empty($_POST['money'])){
-                $msg = ("请输入金额。");
+                $msg = "请充值输入金额。";
             }else{
-                if ($userMsg['money'] < $need_pay){
-                    $msg = "余额不足";
+                if(!is_numeric($_POST['money'])){
+                    $msg = "充值金额要是数字哦。";
                 }else{
-                    $result = $userObj->turnCoin($_SESSION['uid'],$need_pay);
-                    if($result){
-                        D("RechargeLog")->addRechargeLog($_SESSION['uid'],$need_pay,$type);
-                        $msg = "注册币充值成功！";
+                    if ($userMsg['money'] < $need_pay){
+                        $msg = "余额不足";
                     }else{
-                        $msg = "注册币充值失败！";
+                        $result = $userObj->turnCoin($_SESSION['uid'],$need_pay);
+                        D("RechargeLog")->addRechargeLog($_SESSION['uid'],$need_pay,$type,$result);
+                        D("CashFlow")->addFlow($_SESSION['uid'],$_SESSION['uid'],11,$need_pay,'注册币充值',0);
+                        if($result == 1){
+                            $msg = "注册币充值成功!";
+                        }else{
+                            $msg = "注册币充值失败,错误代码 $result ，请尽快联系客服!";
+                        }
                     }
                 }
             }
@@ -336,3 +341,5 @@ class WalletController extends CommonController{
         $this->display();
     }
 }
+// 快捷鍵
+// 主題

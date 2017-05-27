@@ -88,7 +88,7 @@ class RabbitBaoController extends CommonController{
                 $transfer[$k]['title'] = '转账成功';
             }elseif($uid == $transfer[$k]['rec_id']){
                 $where['id'] = $transfer[$k]['pay_id'];
-                $transfer[$k]['title'] = '收到转账';
+                $transfer[$k]['title'] = "收到转账";
             }else{
                 $transfer[$k]['title'] = '转账失败';
             }

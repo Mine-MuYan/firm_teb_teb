@@ -12,14 +12,15 @@ class RechargeLogModel extends Model{
     protected $pk = 'id';
     protected $tableName = 'daili_recharge_log';
 
-    public function addRechargeLog($uid,$money,$type)
+    public function addRechargeLog($uid,$money,$type,$status)
     {
         $data = array(
-            "user_id"=>$uid,
-            "money"=>$money,
-            "type"=>$type,
-            "create_time"=>time(),
-            "create_ip"=>getIP()
+            "user_id" => $uid,
+            "money" => $money,
+            "type" => $type,
+            "create_time" => time(),
+            "create_ip" => getIP(),
+            "status" => $status
         );
         $this->add($data);
     }

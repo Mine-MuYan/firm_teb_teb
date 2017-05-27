@@ -398,13 +398,20 @@ class UserModel extends Model{
     public function turnCoin($id, $money)
     {
         $users = M();
-        $sql = "UPDATE daili_user SET `money` = `money` - ".$money.",`register_coin` = `register_coin`+".$money." WHERE `id` = ".$id;
-        $update_user = $users->execute($sql);
-        if ($update_user){
-            return true;
+        $sql_del = "UPDATE daili_user SET `money` = `money` - $money  WHERE `id` = $id ";
+        $sql_inc = "UPDATE daili_user SET `register_coin` = `register_coin`+ $money WHERE `id` = $id ";
+        $user_del = $users->execute($sql_del);
+        $user_inc = $users->execute($sql_inc);
+        if ($user_del){
+            if ($user_inc){
+                $msg = 1;    //充值成功：钱扣掉了，且注册币增加了
+            }else{
+                $msg = 2;  //钱扣掉了，但是注册币没有增加
+            }
         }else{
-            return false;
+            $msg = 3;  //充值失败 ：钱没有被扣，注册币也没有增加
         }
+        return $msg;
     }
 
     /**
