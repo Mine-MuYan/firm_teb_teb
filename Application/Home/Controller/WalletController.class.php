@@ -341,5 +341,3 @@ class WalletController extends CommonController{
         $this->display();
     }
 }
-// 快捷鍵
-// 主題
